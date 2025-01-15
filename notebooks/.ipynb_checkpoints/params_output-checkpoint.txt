@@ -1,0 +1,18 @@
+{'regressor__preprocessor': ColumnTransformer(force_int_remainder_cols=False, remainder='passthrough',
+                  transformers=[('one_hot', OneHotEncoder(drop='first'),
+                                 ['MSZoning', 'LandContour', 'LotConfig',
+                                  'Condition1', 'BldgType', 'HouseStyle',
+                                  'RoofStyle', 'Exterior1st', 'Foundation',
+                                  'BsmtFinType1', 'BsmtFinType2', 'Heating',
+                                  'CentralAir', 'Electrical', 'GarageType',
+                                  'SaleType', 'SaleCondition', 'Fun...
+                                 ['LotArea', 'MasVnrArea', 'GarageArea',
+                                  'WoodDeckSF', 'PoolArea', 'MiscVal', 'MoSold',
+                                  'ScreenPorch_ratio', 'BsmtFinSF1_ratio',
+                                  'Built_Sold_delta', 'OpenPorch_ratio',
+                                  '3SsnPorch_ratio', 'other_rooms',
+                                  'BsmtFinSF2_ratio', '1stFlrSF_ratio',
+                                  'Built_Remod_delta', 'EnclosedPorch_ratio',
+                                  'BsmtFullBath', 'BsmtHalfBath', 'FullBath',
+                                  'HalfBath', 'BedroomAbvGr', 'KitchenAbvGr',
+                                  'Fireplaces'])]), 'transformer': None}
