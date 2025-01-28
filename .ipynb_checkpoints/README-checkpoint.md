@@ -1,86 +1,156 @@
-# Modelo de projeto de ciência de dados
+# House Prices - Advanced Regression Techniques (Kaggle Competition)
 
-Modelo de projeto de ciência de dados para ser utilizado como referência em projetos
-futuros. Desenvolvido por mim, [Francisco Bustamante](https://github.com/chicolucio),
-para alunos iniciantes em ciência de dados de meus cursos e mentorias.
+This repository contains the solution and analysis for the Kaggle competition **["House Prices: Advanced Regression Techniques"](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques)**. The objective of this competition is to predict the final sale price of homes based on a variety of features, such as square footage, number of rooms, location.
 
-Inspiração: [Cookiecutter Data Science](https://drivendata.github.io/cookiecutter-data-science/)
+![](https://github.com/alexhubbe/house_prices_kaggle_competition/blob/master/reports/images/sale_prices.png)
 
-Clique no botão **Use this template** para criar um novo repositório com base neste modelo.
+My main goal was to improve [AutoGluon](https://autogluon.mxnet.io/)’s prediction score through data engineering and configuration optimization.
 
-## Organização do projeto
+## Key Findings:
+- Improved AutoGluon's baseline prediction score by **10.1%** (Table 1).
+- Achieved a **top 3% ranking** among nearly 4,200 competitors in the Kaggle competition.
+
+### Table 1: Approaches Employed to Improve Model Performance
+
+| Data                        | AutoGluon Presets, Time (min) | Score (RMSE) | Score Improvement (%) |
+|-----------------------------|-------------------------------|--------------|-----------------------|
+| Original data               | Default                       | 0.12748      | -                     |
+| Original data               | Good, 30                      | 0.12036      | 5.6                   |
+| - Feature 'Id'              | Good, 30                      | 0.11632      | 8.8                   |
+| + NaN Treatment             | Good, 30                      | 0.11539      | 9.5                   |
+| + Median Price (25 Closest) | Good, 30                      | 0.11459      | 10.1                  |
+
+---
+
+## Project Overview
+
+Below is a succinct description of the steps developed in this project.
+
+## [Adding Latitude and Longitude to the Dataset](https://github.com/alexhubbe/house_prices_kaggle_competition/blob/master/notebooks/01_ah_merging_datas.ipynb)  
+- Combined latitude and longitude information from [R's tidymodels](https://www.tmwr.org/ames) dataset with Kaggle's dataset. While this did not improve the test dataset score (Table 2), it enabled the calculation of the median sale price of the 25 closest houses.
+- Produced visualizations (see [here](https://github.com/alexhubbe/house_prices_kaggle_competition/blob/master/notebooks/ah_appendix_1.ipynb)).
+
+## [Exploratory Data Analysis and Data Engineering](https://github.com/alexhubbe/house_prices_kaggle_competition/blob/master/notebooks/02_ah_EDA.ipynb)  
+At this stage, I went through several procedures:  
+1. **Sanity check**
+- Inspected for duplicate entries, standardized text data, and analyzed missing values.
+- Dropped the 'Id' feature, improving the test dataset score by **3.2%** (Table 1).
+- Tested dropping categorical features that lacked a second representative category in the training dataset, but this approach did not improve the score on the test dataset (Table 2).
+
+2. **Missing values treatment**
+- Implemented a custom approach for handling missing values, resulting in a **0.7%** improvement over AutoGluon's default method (Table 1).
+  
+3. **Categorical features**
+- Tested combining underrepresented categories and grouping neighborhoods, but neither approach improved the score (Table 2).
+
+4. **Numeric features**
+- Experimented with delta features, seasonal features, and area-related features, but none improved the score (Table 2).
+
+5. **Numeric vs. non-numeric features**
+- Explored an alternative encoding method for ordinal features (see [here](https://github.com/alexhubbe/house_prices_kaggle_competition/blob/master/notebooks/ah_appendix_2.ipynb)), but this did not improve the score (Table 2).
+  
+6. **Outliers**
+- Evaluated the impact of removing extreme outliers, but this did not improve the score (Table 2).
+  
+7. **New feature based on location**
+- Introduced a feature representing the median sale price of the 25 closest houses, with the number of neighboring houses determined through experimentation (values tested: 5, 25, 50, 75, and 100). This feature yielded a **0.6%** improvement (Table 1).
+
+8. **New feature based on economic data**
+- Tested two economic indexes related to housing prices, but these features did not improve model performance (Table 2).
+
+9. **Interaction between original features**
+- Experimented with creating interaction features by combining pairs of the top numeric/ordinal features (e.g., 'GrLivArea' * 'OverallQual') based on AutoGluon’s feature importance ranking. I tested combinations of the top 3, 5, and 10 features, but this approach did not improve the test dataset score (Table 2). A caveat is that AutoGluon's feature importance ranking is intended for use on the test dataset; however, since I do not have the SalePrice for the test dataset, I applied it to the training dataset instead. 
+
+## [Machine Learning](https://github.com/alexhubbe/house_prices_kaggle_competition/blob/master/notebooks/03_ah_MODEL.ipynb)  
+- I used **AutoGluon** to perform the machine learning analyses.  
+- The analyses were conducted using the `presets='good_quality'` and `time_limit=30 min` (the "good_quality" preset typically completes in under 30 minutes). The `medium_quality`, `high_quality`, and `best_quality` presets did not improve the score on the test dataset (see Table 2).  
+- Neither the **AutoGluon pseudolabel model refit** nor **model distillation** improved the score on the test dataset (Table 2).  
+
+### Table 2: Proposed Treatments That Did Not Improve Scores
+
+| **Treatments**                                                                 |
+|--------------------------------------------------------------------------------|
+| Removing 'Street', 'Utilities', 'RoofMatl', 'Condition2', 'PoolQC'             |
+| Longitude and Latitude                                                         |
+| Combining Underrepresented Classes                                             |
+| Grouping Neighborhoods into Larger Areas                                       |
+| Defining Seasons of the Year                                                   |
+| Delta Features for Construction, Remodeling, and Selling Years                |
+| Total Area, Finished Area, High-Quality Area, and Total Bathrooms              |
+| Ordinal Encoding                                                               |
+| Removing Extreme Outliers                                                      |
+| Case-Shiller U.S. National Home Price Index                                    |
+| All-Transactions House Price Index for Ames, IA                                |
+| Interaction Features Among Top Features                                        |
+| AutoGluon Presets: `medium_quality`, `high_quality`, `best_quality`            |
+| AutoGluon Pseudolabel Model Refit and Model Distillation                       |
+
+---
+
+## Tools and Technologies:
+- **Libraries**: AutoGluon, Featuretools, Matplotlib, Numpy, Pandas, Seaborn, Scikit-Learn, 
+
+---
+
+## Project organization
 
 ```
-├── .env               <- Arquivo de variáveis de ambiente (não versionar)
-├── .gitignore         <- Arquivos e diretórios a serem ignorados pelo Git
-├── ambiente.yml       <- O arquivo de requisitos para reproduzir o ambiente de análise
-├── LICENSE            <- Licença de código aberto se uma for escolhida
-├── README.md          <- README principal para desenvolvedores que usam este projeto.
+├── .gitignore                         <- Files and directories to be ignored by Git
 |
-├── dados              <- Arquivos de dados para o projeto.
+├── LICENSE                            <- License type 
 |
-├── modelos            <- Modelos treinados e serializados, previsões de modelos ou resumos de modelos
+├── README.md                          <- Main README explaining the project
 |
-├── notebooks          <- Cadernos Jupyter. A convenção de nomenclatura é um número (para ordenação),
-│                         as iniciais do criador e uma descrição curta separada por `-`, por exemplo
-│                         `01-fb-exploracao-inicial-de-dados`.
-│
-|   └──src             <- Código-fonte para uso neste projeto.
-|      │
-|      ├── __init__.py  <- Torna um módulo Python
-|      ├── config.py    <- Configurações básicas do projeto
-|      └── graficos.py  <- Scripts para criar visualizações exploratórias e orientadas a resultados
+├── data                               <- Project data files
+|   ├── ames_dataset.csv               <- Original dataset from R's tidymodels
+|   ├── ATNHPIUS11180Q.csv             <- Data for Ames' House Price Index
+|   ├── clean_data.csv                 <- Dataset prepared for machine learning analysis
+|   ├── CSUSHPINSA.csv                 <- Data for the USA's Case-Shiller Index
+|   ├── original_plus_lat_lon.csv      <- Kaggle dataset with added longitude and latitude from tidymodels
+|   ├── test.csv                       <- Original test dataset from Kaggle
+|   ├── train.csv                      <- Original train dataset from Kaggle
 |
-├── referencias        <- Dicionários de dados, manuais e todos os outros materiais explicativos.
+├── environments                       <- Requirements files to reproduce the analysis environments
+|   ├── autogluon_environment.yml      <- Environment for running '03_ah_MODEL.ipynb' 
+|   ├── eda_environment.yml            <- Environment for running '01_ah_merging_datas.ipynb', '02_ah_EDA.ipynb', and 'ah_appendix_2.ipynb' 
+|   ├── maps_environment.yml           <- Environment for running 'ah_appendix_1.ipynb'
 |
-├── relatorios         <- Análises geradas em HTML, PDF, LaTeX, etc.
-│   └── imagens        <- Gráficos e figuras gerados para serem usados em relatórios
+├── models                             <- Trained and serialized models, model predictions, or model summaries
+|
+├── notebooks                          <- Jupyter notebooks
+|   ├── 01_ah_merging_datas.ipynb      <- Adding latitude and longitude information to Kaggle's dataset
+|   ├── 02_ah_EDA.ipynb                <- Exploratory data analysis
+|   ├── 03_ah_MODEL.ipynb              <- Machine learning approach
+|   ├── ah_appendix_1.ipynb            <- Creating maps
+|   ├── ah_appendix_2.ipynb            <- Exploring an alternative dataset transformation
+|   └── src                            <- Source code used in this project
+|      ├── __init__.py                 <- Makes this a Python module
+|      ├── auxiliaries.py              <- Scripts to compute nearest houses and median sale prices
+|      ├── config.py                   <- Basic project configuration
+|      ├── eda.py                      <- Scripts for exploratory data analysis and visualizations
+|
+├── references                         <- Data dictionaries, manuals, and other explanatory materials
+|   ├── data_description.txt           <- Description of the dataset as presented on Kaggle
+|
+├── reports                            <- Generated analyses in HTML, PDF, LaTeX, etc., and results
+|   ├── best_kaggle_prediction.csv     <- Best prediction from Kaggle competition
+│   └── images                         <- Images used in the project
+|      ├── sale_prices_train_test_plot.png  <- Map showing houses with and without prices 
+|      ├── sale_prices.png                  <- Map displaying house prices
 ```
 
-## Configuração do ambiente
+## Contributing
+All contributions are welcome!
 
-1. Faça o clone do repositório que será criado a partir deste modelo.
+### Issues
+Submit issues for:
+- Recommendations or improvements
+- Additional analyses or models
+- Feature enhancements
+- Bug reports
 
-    ```bash
-    git clone ENDERECO_DO_REPOSITORIO
-    ```
-
-2. Crie um ambiente virtual para o seu projeto utilizando o gerenciador de ambientes de sua preferência.
-
-    a. Caso esteja utilizando o `conda`, exporte as dependências do ambiente para o arquivo `ambiente.yml`:
-
-      ```bash
-      conda env export > ambiente.yml
-      ```
-
-    b. Caso esteja utilizando outro gerenciador de ambientes, exporte as dependências
-    para o arquivo `requirements.txt` ou outro formato de sua preferência. Adicione o
-    arquivo ao controle de versão, removendo o arquivo `ambiente.yml`.
-
-3. Verifique o arquivo `notebooks/01-fb-exemplo.ipynb` para exemplos
-de uso do código.
-4. Renomeie o arquivo `notebooks/01-fb-exemplo.ipynb` para um nome
-mais apropriado ao seu projeto. E siga a convenção de nomenclatura para os demais
-notebooks.
-5. Remova arquivos de exemplo e adicione os arquivos de dados e notebooks do seu
-projeto.
-6. Verifique o arquivo `notebooks/src/config.py` para configurações básicas do projeto.
-Modifique conforme necessário, adicionando ou removendo caminhos de arquivos e
-diretórios.
-7. Atualize o arquivo `referencias/01_dicionario_de_dados.md` com o dicionário de dados
-do seu projeto.
-8. Atualize o `README.md` com informações sobre o seu projeto.
-9. Adicione uma licença ao projeto. Clique
-[aqui](https://docs.github.com/pt/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)
-se precisar de ajuda para escolher uma licença.
-10. Renomeie o arquivo `.env.exemplo` para `.env`
-11. Adicione variáveis de ambiente sensíveis ao arquivo `.env`.
-
-Por padrão, o arquivo `.gitignore` já está configurado para ignorar arquivos de dados e
-arquivos de Notebook (para aqueles que usam ferramentas como
-[Jupytext](https://jupytext.readthedocs.io/en/latest/) e similares). Adicione ou remova
-outros arquivos e diretórios do `.gitignore` conforme necessário. Caso deseje adicionar
-forçadamente um Notebook ao controle de versão, faça um commit forçado com o
-comando `git add --force NOME_DO_ARQUIVO.ipynb`.
-
-Para mais informações sobre como usar Git e GitHub, [clique aqui](https://cienciaprogramada.com.br/2021/09/guia-definitivo-git-github/). Sobre ambientes virtuais, [clique aqui](https://cienciaprogramada.com.br/2020/08/ambiente-virtual-projeto-python/).
+### Pull Requests
+- Open an issue before starting work.
+- Fork the repository and clone it.
+- Create a branch and commit your changes.
+- Push your changes and open a pull request for review.
