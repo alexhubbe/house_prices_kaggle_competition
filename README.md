@@ -93,48 +93,47 @@ At this stage, I went through several procedures:
 ---
 
 ## Project organization
-
 ```
-├── .gitignore                         <- Files and directories to be ignored by Git
+├── .gitignore                              <- Files and directories to be ignored by Git
 |
-├── LICENSE                            <- License type 
+├── LICENSE                                 <- License type 
 |
-├── README.md                          <- Main README explaining the project
+├── README.md                               <- Main README explaining the project
 |
-├── data                               <- Project data files
-|   ├── ames_dataset.csv               <- Original dataset from R's tidymodels
-|   ├── ATNHPIUS11180Q.csv             <- Data for Ames' House Price Index
-|   ├── clean_data.csv                 <- Dataset prepared for machine learning analysis
-|   ├── CSUSHPINSA.csv                 <- Data for the USA's Case-Shiller Index
-|   ├── original_plus_lat_lon.csv      <- Kaggle dataset with added longitude and latitude from tidymodels
-|   ├── test.csv                       <- Original test dataset from Kaggle
-|   ├── train.csv                      <- Original train dataset from Kaggle
+├── data                                    <- Project data files
+|   ├── ames_dataset.csv                    <- Original dataset from R's tidymodels
+|   ├── ATNHPIUS11180Q.csv                  <- Data for Ames' House Price Index
+|   ├── clean_data.csv                      <- Dataset prepared for machine learning analysis
+|   ├── CSUSHPINSA.csv                      <- Data for the USA's Case-Shiller Index
+|   ├── original_plus_lat_lon.csv           <- Kaggle dataset with added longitude and latitude from tidymodels
+|   ├── test.csv                            <- Original test dataset from Kaggle
+|   ├── train.csv                           <- Original train dataset from Kaggle
 |
-├── environments                       <- Requirements files to reproduce the analysis environments
-|   ├── autogluon_environment.yml      <- Environment for running '03_ah_MODEL.ipynb' 
-|   ├── eda_environment.yml            <- Environment for running '01_ah_merging_datas.ipynb', '02_ah_EDA.ipynb', and 'ah_appendix_2.ipynb' 
-|   ├── maps_environment.yml           <- Environment for running 'ah_appendix_1.ipynb'
+├── environments                            <- Requirements files to reproduce the analysis environments
+|   ├── autogluon_environment.yml           <- Environment for running '03_ah_MODEL.ipynb' 
+|   ├── eda_environment.yml                 <- Environment for running '01_ah_merging_datas.ipynb', '02_ah_EDA.ipynb', and 'ah_appendix_2.ipynb' 
+|   ├── maps_environment.yml                <- Environment for running 'ah_appendix_1.ipynb'
 |
-├── models                             <- Trained and serialized models, model predictions, or model summaries
+├── models                                  <- Trained and serialized models, model predictions, or model summaries
 |
-├── notebooks                          <- Jupyter notebooks
-|   ├── 01_ah_merging_datas.ipynb      <- Adding latitude and longitude information to Kaggle's dataset
-|   ├── 02_ah_EDA.ipynb                <- Exploratory data analysis
-|   ├── 03_ah_MODEL.ipynb              <- Machine learning approach
-|   ├── ah_appendix_1.ipynb            <- Creating maps
-|   ├── ah_appendix_2.ipynb            <- Exploring an alternative dataset transformation
-|   └── src                            <- Source code used in this project
-|      ├── __init__.py                 <- Makes this a Python module
-|      ├── auxiliaries.py              <- Scripts to compute nearest houses and median sale prices
-|      ├── config.py                   <- Basic project configuration
-|      ├── eda.py                      <- Scripts for exploratory data analysis and visualizations
+├── notebooks                               <- Jupyter notebooks
+|   ├── 01_ah_merging_datas.ipynb           <- Adding latitude and longitude information to Kaggle's dataset
+|   ├── 02_ah_EDA.ipynb                     <- Exploratory data analysis
+|   ├── 03_ah_MODEL.ipynb                   <- Machine learning approach
+|   ├── ah_appendix_1.ipynb                 <- Creating maps
+|   ├── ah_appendix_2.ipynb                 <- Exploring an alternative dataset transformation
+|   └── src                                 <- Source code used in this project
+|       ├── __init__.py                     <- Makes this a Python module
+|       ├── auxiliaries.py                  <- Scripts to compute nearest houses and median sale prices
+|       ├── config.py                       <- Basic project configuration
+|       ├── eda.py                          <- Scripts for exploratory data analysis and visualizations
 |
-├── references                         <- Data dictionaries, manuals, and other explanatory materials
-|   ├── data_description.txt           <- Description of the dataset as presented on Kaggle
+├── references                              <- Data dictionaries, manuals, and other explanatory materials
+|   ├── data_description.txt                <- Description of the dataset as presented on Kaggle
 |
-├── reports                            <- Generated analyses in HTML, PDF, LaTeX, etc., and results
-|   ├── best_kaggle_prediction.csv     <- Best prediction from Kaggle competition
-│   └── images                         <- Images used in the project
+├── reports                                 <- Generated analyses in HTML, PDF, LaTeX, etc., and results
+|   ├── best_kaggle_prediction.csv          <- Best prediction from Kaggle competition
+│   └── images                              <- Images used in the project
 |      ├── sale_prices_train_test_plot.png  <- Map showing houses with and without prices 
 |      ├── sale_prices.png                  <- Map displaying house prices
 ```
