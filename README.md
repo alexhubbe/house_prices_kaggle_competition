@@ -1,4 +1,5 @@
-# House Prices - Advanced Regression Techniques (Kaggle Competition)
+# House Prices - Advanced Regression Techniques (Kaggle Competition) 
+[Go to German Version](#german-version)
 
 This repository contains the solution and analysis for the Kaggle competition **["House Prices: Advanced Regression Techniques"](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques)**. The objective of this competition is to predict the final sale price of homes based on a variety of features, such as square footage, number of rooms, location.
 
@@ -153,3 +154,162 @@ Submit issues for:
 - Fork the repository and clone it.
 - Create a branch and commit your changes.
 - Push your changes and open a pull request for review.
+
+
+# German Version
+
+# Hauspreise - Fortgeschrittene Regressionsmethoden (Kaggle-Wettbewerb)
+
+Dieses Repository enthält die Lösung und Analyse für den Kaggle-Wettbewerb **["House Prices: Advanced Regression Techniques"](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques)**. Das Ziel dieses Wettbewerbs ist es, den endgültigen Verkaufspreis von Häusern basierend auf verschiedenen Merkmalen wie Quadratmeterzahl, Anzahl der Zimmer und Lage vorherzusagen.
+
+![](https://github.com/alexhubbe/house_prices_kaggle_competition/blob/master/reports/images/sale_prices.png)
+
+Mein Hauptziel war es, die Vorhersagegenauigkeit von [AutoGluon](https://autogluon.mxnet.io/) durch Datenengineering und Konfigurationsoptimierung zu verbessern.
+
+## Wichtige Erkenntnisse:
+- Verbesserung der Baseline-Vorhersagegenauigkeit von AutoGluon um **10,1 %** (Tabelle 1).
+- Erreichen eines **Top-3%-Rangs** unter fast 4.200 Teilnehmern im Kaggle-Wettbewerb.
+
+### Tabelle 1: Angewandte Ansätze zur Verbesserung der Modellleistung
+
+| Daten                        | AutoGluon-Voreinstellungen, Zeit (min) | Score (RMSE) | Verbesserung des Scores (%) |
+|-----------------------------|----------------------------------------|--------------|-----------------------------|
+| Originaldaten               | Standard                               | 0,12748      | -                           |
+| Originaldaten               | Gut, 30                                | 0,12036      | 5,6                         |
+| - Merkmal 'Id'              | Gut, 30                                | 0,11632      | 8,8                         |
+| + NaN-Behandlung            | Gut, 30                                | 0,11539      | 9,5                         |
+| + Medianpreis (25 nächste)  | Gut, 30                                | 0,11459      | 10,1                        |
+
+---
+
+## Projektübersicht
+
+Nachfolgend finden Sie eine kurze Beschreibung der in diesem Projekt entwickelten Schritte.
+
+## [Hinzufügen von Breiten- und Längengraden zum Datensatz](https://github.com/alexhubbe/house_prices_kaggle_competition/blob/master/notebooks/01_ah_merging_datas.ipynb)  
+- Kombination von Breiten- und Längengradinformationen aus dem [R tidymodels](https://www.tmwr.org/ames)-Datensatz mit dem Kaggle-Datensatz. Obwohl dies die Testdatensatz-Bewertung nicht verbesserte (Tabelle 2), ermöglichte es die Berechnung des medianen Verkaufspreises der 25 nächsten Häuser.
+- Erstellung von Visualisierungen (siehe [hier](https://github.com/alexhubbe/house_prices_kaggle_competition/blob/master/notebooks/ah_appendix_1.ipynb)).
+
+## [Explorative Datenanalyse und Datenengineering](https://github.com/alexhubbe/house_prices_kaggle_competition/blob/master/notebooks/02_ah_EDA.ipynb)  
+In dieser Phase durchlief ich mehrere Verfahren:  
+1. **Plausibilitätsprüfung**
+- Überprüfung auf doppelte Einträge, Standardisierung von Textdaten und Analyse fehlender Werte.
+- Entfernung des Merkmals 'Id', was die Testdatensatz-Bewertung um **3,2 %** verbesserte (Tabelle 1).
+- Test der Entfernung kategorischer Merkmale, die im Trainingsdatensatz keine zweite repräsentative Kategorie aufwiesen, was jedoch die Testdatensatz-Bewertung nicht verbesserte (Tabelle 2).
+
+2. **Behandlung fehlender Werte**
+- Implementierung eines benutzerdefinierten Ansatzes zur Behandlung fehlender Werte, was zu einer **0,7 %**-Verbesserung gegenüber der Standardmethode von AutoGluon führte (Tabelle 1).
+  
+3. **Kategorische Merkmale**
+- Test der Kombination unterrepräsentierter Kategorien und Gruppierung von Nachbarschaften, was jedoch die Bewertung nicht verbesserte (Tabelle 2).
+
+4. **Numerische Merkmale**
+- Experimente mit Delta-Merkmalen, saisonalen Merkmalen und flächenbezogenen Merkmalen, die jedoch die Bewertung nicht verbesserten (Tabelle 2).
+
+5. **Numerische vs. nicht-numerische Merkmale**
+- Erforschung einer alternativen Kodierungsmethode für ordinale Merkmale (siehe [hier](https://github.com/alexhubbe/house_prices_kaggle_competition/blob/master/notebooks/ah_appendix_2.ipynb)), was jedoch die Bewertung nicht verbesserte (Tabelle 2).
+  
+6. **Ausreißer**
+- Bewertung der Auswirkungen der Entfernung extremer Ausreißer, was jedoch die Bewertung nicht verbesserte (Tabelle 2).
+  
+7. **Neues Merkmal basierend auf der Lage**
+- Einführung eines Merkmals, das den medianen Verkaufspreis der 25 nächsten Häuser darstellt, wobei die Anzahl der Nachbarhäuser durch Experimente bestimmt wurde (getestete Werte: 5, 25, 50, 75 und 100). Dieses Merkmal führte zu einer **0,6 %**-Verbesserung (Tabelle 1).
+
+8. **Neues Merkmal basierend auf Wirtschaftsdaten**
+- Test zweier Wirtschaftsindizes im Zusammenhang mit Hauspreisen, die jedoch die Modellleistung nicht verbesserten (Tabelle 2).
+
+9. **Interaktion zwischen ursprünglichen Merkmalen**
+- Experimente mit der Erstellung von Interaktionsmerkmalen durch Kombination von Paaren der wichtigsten numerischen/ordinalen Merkmale (z.B. 'GrLivArea' * 'OverallQual') basierend auf der Merkmalswichtigkeitsrangliste von AutoGluon. Ich testete Kombinationen der Top 3, 5 und 10 Merkmale, aber dieser Ansatz verbesserte die Testdatensatz-Bewertung nicht (Tabelle 2). Ein Vorbehalt ist, dass die Merkmalswichtigkeitsrangliste von AutoGluon für die Verwendung auf dem Testdatensatz gedacht ist; da ich jedoch den SalePrice für den Testdatensatz nicht habe, wendete ich sie stattdessen auf den Trainingsdatensatz an.
+
+## [Maschinelles Lernen](https://github.com/alexhubbe/house_prices_kaggle_competition/blob/master/notebooks/03_ah_MODEL.ipynb)  
+- Ich verwendete **AutoGluon**, um die maschinellen Lernanalysen durchzuführen.  
+- Die Analysen wurden mit den Voreinstellungen `presets='good_quality'` und `time_limit=30 min` durchgeführt (die "good_quality"-Voreinstellung ist in der Regel in weniger als 30 Minuten abgeschlossen). Die Voreinstellungen `medium_quality`, `high_quality` und `best_quality` verbesserten die Bewertung des Testdatensatzes nicht (siehe Tabelle 2).  
+- Weder das **AutoGluon Pseudolabel Model Refit** noch die **Modelldestillation** verbesserten die Bewertung des Testdatensatzes (Tabelle 2).  
+
+### Tabelle 2: Vorgeschlagene Behandlungen, die die Bewertungen nicht verbesserten
+
+| **Behandlungen**                                                                 |
+|--------------------------------------------------------------------------------|
+| Entfernung von 'Street', 'Utilities', 'RoofMatl', 'Condition2', 'PoolQC'       |
+| Längen- und Breitengrad                                                       |
+| Kombination unterrepräsentierter Klassen                                       |
+| Gruppierung von Nachbarschaften in größere Gebiete                             |
+| Definition der Jahreszeiten                                                   |
+| Delta-Merkmale für Bau-, Umbau- und Verkaufsjahre                             |
+| Gesamtfläche, fertiggestellte Fläche, hochwertige Fläche und Gesamtzahl der Badezimmer |
+| Ordinale Kodierung                                                            |
+| Entfernung extremer Ausreißer                                                  |
+| Case-Shiller U.S. National Home Price Index                                    |
+| All-Transactions House Price Index für Ames, IA                                |
+| Interaktionsmerkmale unter den Top-Merkmalen                                   |
+| AutoGluon-Voreinstellungen: `medium_quality`, `high_quality`, `best_quality`   |
+| AutoGluon Pseudolabel Model Refit und Modelldestillation                       |
+
+---
+
+## Tools und Technologien:
+- **Bibliotheken**: AutoGluon, Featuretools, Matplotlib, Numpy, Pandas, Seaborn, Scikit-Learn, 
+
+---
+
+## Projektorganisation
+```
+├── .gitignore                              <- Dateien und Verzeichnisse, die von Git ignoriert werden sollen
+|
+├── LICENSE                                 <- Lizenztyp 
+|
+├── README.md                               <- Haupt-README, die das Projekt erklärt
+|
+├── data                                    <- Projektdateien
+|   ├── ames_dataset.csv                    <- Originaldatensatz von R's tidymodels
+|   ├── ATNHPIUS11180Q.csv                  <- Daten für den Hauspreisindex von Ames
+|   ├── clean_data.csv                      <- Für die maschinelle Lernanalyse vorbereiteter Datensatz
+|   ├── CSUSHPINSA.csv                      <- Daten für den Case-Shiller-Index der USA
+|   ├── original_plus_lat_lon.csv           <- Kaggle-Datensatz mit hinzugefügten Längen- und Breitengraden von tidymodels
+|   ├── test.csv                            <- Originaler Testdatensatz von Kaggle
+|   ├── train.csv                           <- Originaler Trainingsdatensatz von Kaggle
+|
+├── environments                            <- Anforderungsdateien zur Reproduktion der Analyseumgebungen
+|   ├── autogluon_environment.yml           <- Umgebung für die Ausführung von '03_ah_MODEL.ipynb' 
+|   ├── eda_environment.yml                 <- Umgebung für die Ausführung von '01_ah_merging_datas.ipynb', '02_ah_EDA.ipynb' und 'ah_appendix_2.ipynb' 
+|   ├── maps_environment.yml                <- Umgebung für die Ausführung von 'ah_appendix_1.ipynb'
+|
+├── models                                  <- Trainierte und serialisierte Modelle, Modellvorhersagen oder Modellzusammenfassungen
+|
+├── notebooks                               <- Jupyter-Notebooks
+|   ├── 01_ah_merging_datas.ipynb           <- Hinzufügen von Längen- und Breitengradinformationen zum Kaggle-Datensatz
+|   ├── 02_ah_EDA.ipynb                     <- Explorative Datenanalyse
+|   ├── 03_ah_MODEL.ipynb                   <- Ansatz des maschinellen Lernens
+|   ├── ah_appendix_1.ipynb                 <- Erstellung von Karten
+|   ├── ah_appendix_2.ipynb                 <- Erforschung einer alternativen Datensatztransformation
+|   └── src                                 <- In diesem Projekt verwendeter Quellcode
+|       ├── __init__.py                     <- Macht dies zu einem Python-Modul
+|       ├── auxiliaries.py                  <- Skripte zur Berechnung der nächsten Häuser und medianen Verkaufspreise
+|       ├── config.py                       <- Grundlegende Projektkonfiguration
+|       ├── eda.py                          <- Skripte für explorative Datenanalyse und Visualisierungen
+|
+├── references                              <- Datenwörterbücher, Handbücher und andere erklärende Materialien
+|   ├── data_description.txt                <- Beschreibung des Datensatzes, wie auf Kaggle präsentiert
+|
+├── reports                                 <- Generierte Analysen in HTML, PDF, LaTeX usw. und Ergebnisse
+|   ├── best_kaggle_prediction.csv          <- Beste Vorhersage aus dem Kaggle-Wettbewerb
+│   └── images                              <- Im Projekt verwendete Bilder
+|      ├── sale_prices_train_test_plot.png  <- Karte mit Häusern mit und ohne Preise 
+|      ├── sale_prices.png                  <- Karte mit Hauspreisen
+```
+
+## Mitwirkung
+Alle Beiträge sind willkommen!
+
+### Probleme
+Reichen Sie Probleme ein für:
+- Empfehlungen oder Verbesserungen
+- Zusätzliche Analysen oder Modelle
+- Funktionserweiterungen
+- Fehlermeldungen
+
+### Pull Requests
+- Öffnen Sie ein Problem, bevor Sie mit der Arbeit beginnen.
+- Forken Sie das Repository und klonen Sie es.
+- Erstellen Sie einen Branch und committen Sie Ihre Änderungen.
+- Pushen Sie Ihre Änderungen und öffnen Sie einen Pull Request zur Überprüfung.
