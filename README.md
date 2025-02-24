@@ -1,7 +1,7 @@
 # House Prices - Advanced Regression Techniques (Kaggle Competition) 
 [Go to German Version](#german-version)
 
-This repository contains the solution and analysis for the Kaggle competition **["House Prices: Advanced Regression Techniques"](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques)**. The objective of this competition is to predict the final sale price of homes based on a variety of features, such as square footage, number of rooms, location.
+This repository contains the solution and analysis for the Kaggle competition **["House Prices: Advanced Regression Techniques"](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques)**. The objective of this competition is to predict the final sale price of homes based on a variety of features, such as square footage, number of rooms, location. See the summary report [here](https://github.com/alexhubbe/house_prices_kaggle_competition/blob/master/reports/summary_report.md).
 
 ![](https://github.com/alexhubbe/house_prices_kaggle_competition/blob/master/reports/images/sale_prices.png)
 
@@ -160,7 +160,7 @@ Submit issues for:
 
 # Hauspreise - Fortgeschrittene Regressionsmethoden (Kaggle-Wettbewerb)
 
-Dieses Repository enthält die Lösung und Analyse für den Kaggle-Wettbewerb **["House Prices: Advanced Regression Techniques"](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques)**. Das Ziel dieses Wettbewerbs ist es, den endgültigen Verkaufspreis von Häusern basierend auf verschiedenen Merkmalen wie Quadratmeterzahl, Anzahl der Zimmer und Lage vorherzusagen.
+Dieses Repository enthält die Lösung und Analyse für den Kaggle-Wettbewerb **["House Prices: Advanced Regression Techniques"](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques)**. Das Ziel dieses Wettbewerbs ist es, den endgültigen Verkaufspreis von Häusern basierend auf verschiedenen Merkmalen wie Quadratmeterzahl, Anzahl der Zimmer und Lage vorherzusagen. Siehe den zusammenfassenden Bericht [hier](https://github.com/alexhubbe/house_prices_kaggle_competition/blob/master/reports/summary_report.md).
 
 ![](https://github.com/alexhubbe/house_prices_kaggle_competition/blob/master/reports/images/sale_prices.png)
 
