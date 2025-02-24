@@ -134,6 +134,7 @@ At this stage, I went through several procedures:
 |
 ├── reports                                 <- Generated analyses in HTML, PDF, LaTeX, etc., and results
 |   ├── best_kaggle_prediction.csv          <- Best prediction from Kaggle competition
+|   ├── summary_report.md                   <- Summary report
 │   └── images                              <- Images used in the project
 |      ├── sale_prices_train_test_plot.png  <- Map showing houses with and without prices 
 |      ├── sale_prices.png                  <- Map displaying house prices
@@ -293,6 +294,7 @@ In dieser Phase durchlief ich mehrere Verfahren:
 |
 ├── reports                                 <- Generierte Analysen in HTML, PDF, LaTeX usw. und Ergebnisse
 |   ├── best_kaggle_prediction.csv          <- Beste Vorhersage aus dem Kaggle-Wettbewerb
+|   ├── summary_report.md                   <- Zusammenfassenden Bericht
 │   └── images                              <- Im Projekt verwendete Bilder
 |      ├── sale_prices_train_test_plot.png  <- Karte mit Häusern mit und ohne Preise 
 |      ├── sale_prices.png                  <- Karte mit Hauspreisen
